@@ -138,7 +138,7 @@ function cardXeno(objet){
     return article;
 };
 
-//Fonction creer la carte du personnage en fonction de son type :
+//Fonction pour creer une carte de personnage en fonction de son type :
 
 function profil(tabObjet){
     const cardList = [];
@@ -155,7 +155,7 @@ function profil(tabObjet){
     }; return cardList;
 };
 
-//Fonction pour afficher tous les personages dans le DOM :
+//Fonction pour afficher toutes les cartes contenues dans le tableau:
 
 function profilAll(tabObjet){
     const profils = document.querySelector(".profils");
@@ -166,6 +166,8 @@ function profilAll(tabObjet){
         };
     };
 };
+
+// Appel de la fonction pour afficher toutes les cartes personnages dans le DOM :
 
 profilAll(tabData);
 
@@ -178,7 +180,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 
-// Ajout des marqueurs sur la cartes :
+// Fonction pour ajouter un marqueur personnage sur la carte :
 
 function markerProfil(objet){
 const ICON = L.icon({
@@ -188,6 +190,8 @@ const ICON = L.icon({
 });
 L.marker([objet.latitude, objet.longitude], {icon: ICON}).addTo(map);
 };
+
+// Appel de la fonction sur tous les personnages :
 
 tabData.forEach(profil => {
     profil.forEach(perso => {
