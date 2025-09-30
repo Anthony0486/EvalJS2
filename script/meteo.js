@@ -38,10 +38,10 @@ const getMeteo = async () => {
 button.addEventListener("click", () => {
     getMeteo().then(data => {
         addInfo(
-            `Condition actuelle :${data.current_condition.condition}\n
-            Température :${data.current_condition.tmp}°\n
-            Température maximum :${data.fcst_day_0.tmax}°\n
-            Température minimum :${data.fcst_day_0.tmin}°`
+            `Condition actuelle : ${data.current_condition.condition}\n
+            Température : ${data.current_condition.tmp}°\n
+            Température maximum : ${data.fcst_day_0.tmax}°\n
+            Température minimum : ${data.fcst_day_0.tmin}°`
         );
     });
     bouton();

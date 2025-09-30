@@ -1,3 +1,4 @@
+//Tableaux de personnages :
 const usersHuman = [{
         type: "humain",
         name: "John Doe",
@@ -88,3 +89,110 @@ const usersXeno = [{
         longitude :  1.43222
     }
 ];
+
+//Variable contenant tous les personnages :
+
+const tabData = [];
+tabData.push(usersHuman, usersXeno, usersPet);
+
+
+// Fonctions pour créer une carte de personnage:
+
+function cardHuman(objet){
+    const article = document.createElement("article");
+    const titre = document.createElement("h2");
+    titre.innerText = objet.name;
+    const img = document.createElement("img");
+    img.setAttribute("src", objet.avatar);
+    img.setAttribute("alt", `Portrait de : ${objet.name}`);
+    const p = document.createElement("p");
+    p.innerText = `Age : ${objet.age} Email : ${objet.email}`
+    article.append(titre, img, p);
+    article.classList.add("card");
+    return article;
+};
+function cardPet(objet){
+    const article = document.createElement("article");
+    const titre = document.createElement("h2");
+    titre.innerText = objet.name;
+    const img = document.createElement("img");
+    img.setAttribute("src", objet.avatar);
+    img.setAttribute("alt", `Portrait de : ${objet.name}`);
+    const p = document.createElement("p");
+    p.innerText = `Age : ${objet.age} Espèce : ${objet.espece} Propriétaire : ${objet.propriétaire}`
+    article.append(titre, img, p);
+    article.classList.add("card")
+    return article;
+};
+function cardXeno(objet){
+    const article = document.createElement("article");
+    const titre = document.createElement("h2");
+    titre.innerText = objet.name;
+    const img = document.createElement("img");
+    img.setAttribute("src", objet.avatar);
+    img.setAttribute("alt", `Portrait de : ${objet.name}`);
+    const p = document.createElement("p");
+    p.innerText = `Age : ${objet.age} Espèce : ${objet.email} Niveau de menace : ${objet.menace}`
+    article.append(titre, img, p);
+    article.classList.add("card")
+    return article;
+};
+
+//Fonction creer la carte du personnage en fonction de son type :
+
+function profil(tabObjet){
+    const cardList = [];
+    for (let i=0 ; i<tabObjet.length ; i++){
+        if (tabObjet[i].type == "humain"){
+            cardList.push(cardHuman(tabObjet[i]));
+        } else if (tabObjet[i].type == "animal de compagnie"){
+            cardList.push(cardPet(tabObjet[i]));
+        }else if (tabObjet[i].type == "Xeno") {
+            cardList.push(cardXeno(tabObjet[i]));
+        }else {
+            console.log("Type de Profil non Existant")
+        };
+    }; return cardList;
+};
+
+//Fonction pour afficher tous les personages dans le DOM :
+
+function profilAll(tabObjet){
+    const profils = document.querySelector(".profils");
+    for (let i=0 ; i< tabObjet.length ; i++){
+        const cardTab = profil(tabObjet[i]);
+        for (let j=0 ; j< cardTab.length ; j++){
+            profils.appendChild(cardTab[j]);
+        };
+    };
+};
+
+profilAll(tabData);
+
+// Intégration carte via API :
+
+var map = L.map('map').setView([ 43.604429, 1.443812], 14);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+
+// Ajout des marqueurs sur la cartes :
+
+function markerProfil(objet){
+const ICON = L.icon({
+    iconUrl: objet.icon,
+    iconSize: [50, 83], 
+    iconAnchor: [25, 83]
+});
+L.marker([objet.latitude, objet.longitude], {icon: ICON}).addTo(map);
+};
+
+tabData.forEach(profil => {
+    profil.forEach(perso => {
+        markerProfil(perso);
+    })
+    
+});
+
